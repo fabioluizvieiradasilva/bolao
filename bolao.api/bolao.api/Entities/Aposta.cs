@@ -8,8 +8,8 @@ namespace bolao.api.Entities
     public class Aposta
     {
         public Guid Id { get; set; }
-        public int ParticipanteId { get; set; }
-        public Participante Participante { get; set; }
+        public int IdParticipant { get; set; }
+        public Participant Participant { get; set; }
         public int JogoId { get; set; }
         public Jogo Jogo { get; set; }
         public int PlacarEquipeCasa { get; set; }

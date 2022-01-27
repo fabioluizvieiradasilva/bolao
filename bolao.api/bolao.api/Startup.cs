@@ -1,7 +1,14 @@
+using bolao.api.Data;
+using bolao.api.Entities;
+using bolao.api.Repository;
+using bolao.api.Repository.Interface;
+using bolao.api.Service;
+using bolao.api.Service.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,12 +33,22 @@ namespace bolao.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Repository
+            services.AddScoped<IParticipantRepository, ParticipantRepository>();
+            #endregion
 
+            #region Service
+            services.AddScoped<IParticipantService, ParticipantService>();
+            #endregion
             services.AddControllers();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "bolao.api", Version = "v1" });
             });
+
+            services.AddDbContext<DataContext>(options => 
+                options.UseMySQL(Configuration.GetConnectionString("myConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
