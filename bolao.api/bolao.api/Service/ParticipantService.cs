@@ -1,4 +1,5 @@
 ﻿using bolao.api.Entities;
+using bolao.api.Model;
 using bolao.api.Repository.Interface;
 using bolao.api.Service.Interface;
 using System;
@@ -48,16 +49,16 @@ namespace bolao.api.Service
             }
         }
 
-        public async Task<Participant> GetParticipantId(int id)
+        public async Task <Participant> GetParticipantId(int id)
         {
             try
             {
-                var participant = this.participantRepository.GetParticipantId(id);
+                var participant = await this.participantRepository.GetParticipantId(id);
 
                 if (participant == null)
                     return null;
 
-                return await participant;
+                return participant;
             }
             catch (Exception ex)
             {
@@ -88,17 +89,21 @@ namespace bolao.api.Service
             throw new NotImplementedException();
         }
 
-        public void UpDateParticipant(int id, Participant participant)
+        public async Task UpDateParticipant(int id, AddParticipantInputModel model)
         {
             try
             {
-                var _participant = this.participantRepository.GetParticipantId(id);
-                if (participant != null)
+                var participant = await this.participantRepository.GetParticipantId(id);
+                
+                if (participant != null) 
                 {
+                    participant.Name = model.Name;
+                    participant.Photo = model.Photo;
+                    participant.Surname = model.Surname;
+
                     this.participantRepository.UpDateParticipant(participant);
                     this.participantRepository.SaveChangesAsync();
-                }                 
-
+                }
             }
             catch (Exception ex)
             {

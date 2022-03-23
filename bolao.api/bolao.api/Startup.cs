@@ -1,5 +1,7 @@
 using bolao.api.Data;
 using bolao.api.Entities;
+using bolao.api.Persistence.Repository;
+using bolao.api.Persistence.Repository.Interface;
 using bolao.api.Repository;
 using bolao.api.Repository.Interface;
 using bolao.api.Service;
@@ -35,10 +37,12 @@ namespace bolao.api
         {
             #region Repository
             services.AddScoped<IParticipantRepository, ParticipantRepository>();
+            services.AddScoped<IEquipeRepository,EquipeRepository >();
             #endregion
 
             #region Service
             services.AddScoped<IParticipantService, ParticipantService>();
+            services.AddScoped<IEquipeService,EquipeService>();
             #endregion
             services.AddControllers();
             
@@ -48,7 +52,10 @@ namespace bolao.api
             });
 
             services.AddDbContext<DataContext>(options => 
-                options.UseMySQL(Configuration.GetConnectionString("myConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("myConnection")));
+
+            //services.AddDbContext<DataContext>(options =>
+            //    options.UseInMemoryDatabase("bolao"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

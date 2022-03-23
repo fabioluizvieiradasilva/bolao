@@ -1,0 +1,16 @@
+
+.container {
+    background-image:url('/assets/image/logo.png');
+    background-repeat: no-repeat;
+    background-size:contain;
+    width: 300px;
+    height: 600px;
+    color: white;
+    margin-top: 20px;
+}
+
+.form-login {
+    padding-top: 100px;
+}
+
+
